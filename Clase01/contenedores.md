@@ -30,3 +30,30 @@ docker ps -a
 ```
 docker stop <nombre contenedor>
 ```
+
+### Crear y ejecutar un contenedor
+
+```
+docker run <nombre imagen>:<tag>
+```
+
+### Crear y ejecutar un contenedor con nombre
+
+```
+docker run --name <nombre contenedor> <nombre imagen>:<tag>
+```
+
+### Eliminar un contenedor detenido
+
+```
+docker rm <nombre contenedor | identificador>
+```
+
+### Eliminar un contenedor ejecutándose
+
+```
+docker stop <nombre contenedor | identificador>
+docker rm <nombre contenedor | identificador>
+
+docker rm -f <nombre contenedor | identificador>
+```

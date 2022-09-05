@@ -24,3 +24,9 @@ docker image inspect redis:7.0.0-alpine
 ```
 docker rmi busybox:latest
 ```
+
+### Forzar eliminación de una imagen
+
+```
+docker rmi -f busybox:latest
+```

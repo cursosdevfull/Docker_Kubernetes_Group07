@@ -1,0 +1,5 @@
+1. Contenedor de MongoDB (puerto 27017)
+2. Contenedor de un Cliente de MongoDB (mongo-express)
+3. Creen una red y añadan a los dos contenedores
+4. Creen persistencia para el contenedor de MongoDB
+5. Que no se pueda acceder a la MongoDB si no es a través del cliente de MongoDB

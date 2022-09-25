@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/72436803/laravel-9-composer-syntax-error-unexpected-token
+
+
+composer update
+--> composer-service update

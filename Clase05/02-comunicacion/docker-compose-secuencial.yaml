@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: frontend
+    image: frontend-ms
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      - PORT=3000
+      - SERVICE_BACKEND1=http://localhost:18010/api/message
+    ports:
+      - "18000:3000"
+    networks:
+      - net-app-front-back
+
+  backend1:
+    container_name: backend1
+    image: backend1-ms
+    build:
+      context: .
+      dockerfile: backend1/Dockerfile
+    environment:
+      - PORT=3010
+      - SERVICE_BACKEND2=http://backend2:3020/api/message
+    ports:
+      - "18010:3010"
+    networks:
+      - net-app-front-back
+      - net-app-back-back
+    healthcheck:
+      test: ["executable", "arg"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+    depends_on:
+      - frontend
+
+  backend2:
+    container_name: backend2
+    image: backend2-ms
+    build:
+      context: .
+      dockerfile: backend2/Dockerfile
+    environment:
+      - PORT=3020
+    networks:
+      - net-app-back-back
+    depends_on:
+      - backend1
+
+networks:
+  net-app-front-back:
+    driver: bridge
+  net-app-back-back:
+    driver: bridge

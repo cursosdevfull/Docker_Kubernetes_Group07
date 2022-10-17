@@ -17,19 +17,19 @@ aws configure
 ### Crear Cluster EKS
 
 ```
-eksctl create cluster --name clusterms7 --without-nodegroup --region us-east-1 --zones us-east-1a,us-east-1b
+eksctl create cluster --name cluster7 --without-nodegroup --region us-east-1 --zones us-east-1a,us-east-1b
 ```
 
 ### Agregar nodos al cluster
 
 ```
-eksctl create nodegroup --cluster clusterms7 --name clusterms7-nodegroup --node-type t3.medium --nodes 1 --nodes-min 1 --nodes-max 3 --asg-access
+eksctl create nodegroup --cluster cluster7 --name cluster7-nodegroup --node-type t3.medium --nodes 1 --nodes-min 1 --nodes-max 3 --asg-access
 ```
 
 ### Crear IAM Provider
 
 ```
-eksctl utils associate-iam-oidc-provider --cluster clusterms7 --approve
+eksctl utils associate-iam-oidc-provider --cluster cluster7 --approve
 ```
 
 ### Descargar política para el cluster
@@ -41,13 +41,13 @@ curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-lo
 ### Crear la política
 
 ```
-aws iam create-policy --policy-name AWSLoadBalancerPolicyMS09 --policy-document file://iam_policy.json
+aws iam create-policy --policy-name AWSLoadBalancerPolicyMS7 --policy-document file://iam_policy.json
 ```
 
 ### Crear cuenta ServiceAccount para el cluster
 
 ```
-eksctl create iamserviceaccount --cluster clusterms7 --namespace=kube-system --name=aws-lb-ms-09 --attach-policy-arn=arn:aws:iam::282865065290:policy/AWSLoadBalancerPolicyMS09 --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --cluster cluster7 --namespace=kube-system --name=aws-lb-ms-09 --attach-policy-arn=arn:aws:iam::282865065290:policy/AWSLoadBalancerPolicyMS07 --override-existing-serviceaccounts --approve
 ```
 
 ### Verificar si existe el ingress controller del balanceador
@@ -71,7 +71,7 @@ helm repo update
 ### Instalar el ingress controller del balanceador
 
 ```
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=clusterms7 --set serviceAccount.create=false --set serviceAccount.name=aws-lb-ms-09 -n kube-system
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=cluster7 --set serviceAccount.create=false --set serviceAccount.name=aws-lb-ms-09 -n kube-system
 ```
 
 ### Verificar que se haya instalado el ingress controller

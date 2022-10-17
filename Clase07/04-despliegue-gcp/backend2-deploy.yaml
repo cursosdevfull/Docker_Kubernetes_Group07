@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend2-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend2-app
+  template:
+    metadata:
+      labels:
+        app: backend2-app
+    spec:
+      containers:
+        - name: backend2-container
+          image: gcr.io/docker07/backend2-ms
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3020
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3020
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3020            
+          env:
+            - name: PORT
+              value: "3020"
